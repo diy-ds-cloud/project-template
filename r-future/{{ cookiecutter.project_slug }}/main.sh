@@ -22,7 +22,7 @@ CLUSTER_NAME=$(terraform -chdir=cluster output -raw kubernetes_cluster_name)
 gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${REGION_CODE} --project=${PROJECT_ID}
 
 echo "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
-helm repo add {{ cookiecutter.project_slug }} https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}
+helm repo add {{ cookiecutter.project_slug }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.project_slug }}
 helm repo update
 helm install myrelease {{ cookiecutter.project_slug }}/diy-r-future --version "${HELM_CHART_VERSION}" --wait
 

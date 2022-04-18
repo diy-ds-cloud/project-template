@@ -5,11 +5,11 @@ set -e
 # gh auth login --git-protocol ssh --scopes workflow,delete_repo --hostname github.com
 
 # create/push empty repository before setting gh actions credentials
-gh repo create --public {{ cookiecutter.github_repo }}
+gh repo create --public {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}
 git init
 git commit --allow-empty -m "empty commit"
 git branch -M main
-git remote add origin https://github.com/{{ cookiecutter.github_repo }}.git
+git remote add origin https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}.git
 git push -u origin main
 
 # credentials for gh actions
@@ -44,7 +44,7 @@ cat << EOF > _config.yml
 title: DIY Cloud Computing with R
 description: This helm chart deploys customized R future-based distributed computing platform on a Kubernetes cluster.
 theme: minima
-url: "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
+url: "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.project_slug }}"
 repo_name: {{ cookiecutter.project_slug }}
 exclude:
   - Gemfile

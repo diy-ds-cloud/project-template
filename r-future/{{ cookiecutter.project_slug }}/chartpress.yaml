@@ -5,8 +5,8 @@ charts:
   - name: diy-r-future
     imagePrefix: "{{ cookiecutter.docker_username }}/r-future-"
     repo:
-      git: "{{ cookiecutter.github_repo }}"
-      published: https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}
+      git: "{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
+      published: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.project_slug }}
     images:
       worker:
         contextPath: .

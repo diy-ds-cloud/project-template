@@ -1,10 +1,11 @@
 {
     "project_name": "Your Project Name",
     "project_description": "My data science project using cloud computing",
-    "project_slug": "{{ cookiecutter.project_name | slugify }}",
     "github_username": "syoh",
-    "github_repo": "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
+    "github_orgname": "{{ cookiecutter.github_username }}",
+    "github_reponame": "{{ cookiecutter.project_name | slugify }}",
     "docker_username": "syoh",
+    "docker_orgname": "{{ cookiecutter.docker_username }}",
     "_copy_without_render": [
         "diy-r-future/templates/*",
         "images/*",
