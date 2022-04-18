@@ -44,8 +44,8 @@ cat << EOF > _config.yml
 title: DIY Cloud Computing with R
 description: This helm chart deploys customized R future-based distributed computing platform on a Kubernetes cluster.
 theme: minima
-url: "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.project_slug }}"
-repo_name: {{ cookiecutter.project_slug }}
+url: "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
+repo_name: {{ cookiecutter.github_reponame }}
 exclude:
   - Gemfile
   - Gemfile.lock
