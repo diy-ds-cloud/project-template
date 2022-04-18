@@ -1,0 +1,14 @@
+{
+    "project_name": "Your Project Name",
+    "project_description": "My data science project using cloud computing",
+    "project_slug": "{{ cookiecutter.project_name | slugify }}",
+    "github_username": "syoh",
+    "github_repo": "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
+    "docker_username": "syoh",
+    "_copy_without_render": [
+        "diy-r-future/templates/*",
+        "images/*",
+        "binder/*",
+        ".github/workflows/build.yml"
+    ]
+}

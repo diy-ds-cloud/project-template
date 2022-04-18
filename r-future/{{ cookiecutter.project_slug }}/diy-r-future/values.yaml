@@ -1,0 +1,41 @@
+nameOverride: ""
+fullnameOverride: ""
+
+notebook:
+
+  image:
+    repository: {{ cookiecutter.docker_username }}/r-future-rstudio:set-by-chartpress
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+  resources: {}
+
+  rstudio:
+    hashedPassword: "sha1:3c5a4b522718:bf63e22afd2f2d08d9ef0262f69697c9fa4baa2c"
+    # serviceType: ClusterIP
+    serviceType: LoadBalancer
+    servicePort: 80
+    targetPort: 8888
+
+  scheduler:
+    servicePort: 11562
+    targetPort: 11562
+
+worker:
+
+  replicaCount: 2
+  image:
+    repository: {{ cookiecutter.docker_username }}/r-future-worker:set-by-chartpress
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+  resources: {}
+
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi

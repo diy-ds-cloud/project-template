@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+
+  r-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    image: r-future:worker-latest
+    command: >
+      bash -c "
+      /opt/conda/bin/future-vars.sh
+      --run-mode worker
+      --scheduler rstudio
+      --port 11562
+      "
+    deploy:
+      replicas: 2
+
+  rstudio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rstudio
+    image: r-future:rstudio-latest
+    hostname: rstudio
+    ports:
+      - "8888:8888"
+      - "11562:11562"
+    command: >
+      bash -c "
+      /opt/conda/bin/future-vars.sh
+      --run-mode scheduler
+      --port 11562
+      --n-workers 2;
+      start-notebook.sh
+      --ServerApp.custom_display_url='http://127.0.0.1:8888/rstudio'
+      "

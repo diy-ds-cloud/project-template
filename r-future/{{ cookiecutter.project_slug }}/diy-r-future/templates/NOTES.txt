@@ -1,0 +1,12 @@
+Get the application URL by running these commands:
+{{- if contains "LoadBalancer" .Values.notebook.rstudio.serviceType }}
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "diy.fullname" . }}-notebook'
+  export SERVICE_IP=$(kubectl get svc {{ include "diy.fullname" . }}-notebook --namespace {{ .Release.Namespace }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ .Values.notebook.rstudio.servicePort }}
+{{- else if contains "ClusterIP" .Values.notebook.rstudio.serviceType }}
+  export SERVICE_NAME="{{ include "diy.fullname" . }}-notebook"
+  export SERVICE_PORT=$(kubectl get svc $SERVICE_NAME --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[?(@.name=='{{ include "diy.fullname" . }}-rstudio')].port}")
+  echo "Visit http://127.0.0.1:8888 to use your application after port forwarding with the following command:"
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/$SERVICE_NAME 8888:$SERVICE_PORT
+{{- end }}

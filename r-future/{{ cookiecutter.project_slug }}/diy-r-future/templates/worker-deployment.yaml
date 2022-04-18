@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "diy.fullname" . }}-worker
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: worker
+spec:
+  replicas: {{ .Values.worker.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "diy.name" . }}
+      release: {{ .Release.Name | quote }}
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: {{ template "diy.name" . }}
+        release: {{ .Release.Name | quote }}
+        component: worker
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.worker.image.repository }}"
+          imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              /opt/conda/bin/future-vars.sh 
+              --run-mode worker 
+              --scheduler {{ include "diy.fullname" . }}-notebook 
+              --port {{ .Values.notebook.scheduler.targetPort }}
+          resources:
+            {{- toYaml .Values.worker.resources | nindent 12 }}

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "diy.fullname" . }}-notebook
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: notebook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "diy.name" . }}
+      release: {{ .Release.Name | quote }}
+      component: notebook
+  template:
+    metadata:
+      labels:
+        app: {{ template "diy.name" . }}
+        release: {{ .Release.Name | quote }}
+        component: notebook
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.notebook.image.repository }}"
+          imagePullPolicy: {{ .Values.notebook.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args: # default password is "diy-cloud"
+            - > 
+              /opt/conda/bin/future-vars.sh 
+              --run-mode scheduler 
+              --port {{ .Values.notebook.scheduler.targetPort }}
+              --n-workers {{ .Values.worker.replicaCount }};
+              /usr/local/bin/start-notebook.sh
+              --ServerApp.password="{{ .Values.notebook.rstudio.hashedPassword }}"
+              --LabApp.default_url="/rstudio"
+          resources:
+            {{- toYaml .Values.notebook.resources | nindent 12 }}

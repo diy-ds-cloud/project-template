@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "diy.fullname" . }}-notebook
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: notebook
+spec:
+  type: {{ .Values.notebook.rstudio.serviceType }}
+  ports:
+    - name: {{ include "diy.fullname" .}}-rstudio
+      port: {{ .Values.notebook.rstudio.servicePort }}
+      targetPort: {{ .Values.notebook.rstudio.targetPort }}
+    - name: {{ include "diy.fullname" .}}-scheduler
+      port: {{ .Values.notebook.scheduler.servicePort }}
+      targetPort: {{ .Values.notebook.scheduler.targetPort }}
+  selector:
+    app: {{ template "diy.name" . }}
+    release: {{ .Release.Name | quote }}
+    component: notebook
