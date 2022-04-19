@@ -4,7 +4,7 @@ fullnameOverride: ""
 notebook:
 
   image:
-    repository: {{ cookiecutter.docker_username }}/r-future-rstudio:set-by-chartpress
+    repository: "{{ cookiecutter.docker_orgname }}/r-future-rstudio:set-by-chartpress"
     # pullPolicy: IfNotPresent
     pullPolicy: Always
   resources: {}
@@ -24,7 +24,7 @@ worker:
 
   replicaCount: 2
   image:
-    repository: {{ cookiecutter.docker_username }}/r-future-worker:set-by-chartpress
+    repository: "{{ cookiecutter.docker_orgname }}/r-future-worker:set-by-chartpress"
     # pullPolicy: IfNotPresent
     pullPolicy: Always
   resources: {}

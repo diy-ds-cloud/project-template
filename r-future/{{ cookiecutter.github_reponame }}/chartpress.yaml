@@ -3,7 +3,7 @@
 
 charts:
   - name: diy-r-future
-    imagePrefix: "{{ cookiecutter.docker_username }}/r-future-"
+    imagePrefix: "{{ cookiecutter.docker_orgname }}/r-future-"
     repo:
       git: "{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
       published: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}

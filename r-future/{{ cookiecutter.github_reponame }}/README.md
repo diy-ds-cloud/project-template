@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252F{{ cookiecutter.github_orgname }}%252F{{ cookiecutter.github_reponame }}%26urlpath%3Dlab%252Ftree%252Fr-future%252F%26branch%3Dmain)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252F{{ cookiecutter.github_orgname }}%252F{{ cookiecutter.github_reponame }}%26urlpath%3Dlab%252Ftree%252F{{ cookiecutter.github_reponame }}%252F%26branch%3Dmain)
 
 ```bash
 USER_ID="syoh@ucsb.edu"
