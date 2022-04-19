@@ -15,10 +15,10 @@ echo "\n\n## Step 1: logging in as user, ${USER_ID}"
 gcloud auth login "${USER_ID}" --no-browser --update-adc
 
 echo "\n\n## Step 2: creating cluster under project, ${PROJECT_ID} in region, ${REGION_CODE}"
-terraform -chdir=cluster init
-terraform -chdir=cluster apply -var="project_id=${PROJECT_ID}" -var="region=${REGION_CODE}" -auto-approve
+terraform -chdir=k8s-cluster init
+terraform -chdir=k8s-cluster apply -var="project_id=${PROJECT_ID}" -var="region=${REGION_CODE}" -auto-approve
 
-CLUSTER_NAME=$(terraform -chdir=cluster output -raw kubernetes_cluster_name)
+CLUSTER_NAME=$(terraform -chdir=k8s-cluster output -raw kubernetes_cluster_name)
 gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${REGION_CODE} --project=${PROJECT_ID}
 
 echo "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"

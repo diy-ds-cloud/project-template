@@ -10,17 +10,17 @@ charts:
     images:
       worker:
         contextPath: .
-        dockerfilePath: images/Dockerfile
+        dockerfilePath: docker-images/Dockerfile
         buildArgs:
           BUILD_STAGE: "worker"
-          DIR_PREFIX: "images"
+          DIR_PREFIX: "docker-images"
         valuesPath:
           - worker.image.repository
       rstudio:
         contextPath: .
-        dockerfilePath: images/Dockerfile
+        dockerfilePath: docker-images/Dockerfile
         buildArgs:
           BUILD_STAGE: "rstudio"
-          DIR_PREFIX: "images"
+          DIR_PREFIX: "docker-images"
         valuesPath:
           - notebook.image.repository
