@@ -34,7 +34,7 @@ jobs:
 
       - name: Install chart publishing dependencies (chartpress, helm)
         run: |
-          . ./ci/common
+          . ./scripts/chartpress-common.sh
           setup_helm v3.5.4
           pip install --no-cache-dir chartpress>=1.2 pyyaml
 
@@ -80,7 +80,7 @@ jobs:
         env:
           GITHUB_REPOSITORY: "${{ github.repository }}"
         run: |
-          ./ci/publish
+          ./scripts/chartpress-publish.sh
 
   # PyPI-testbuild:
   #   runs-on: ubuntu-latest
