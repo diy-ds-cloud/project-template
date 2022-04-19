@@ -6,10 +6,10 @@ echo "--------------------------------------------"
 echo "DIY Cloud Computing for Data Science using R"
 echo "--------------------------------------------"
 
-echo "\n\n## Step 1: login to GitHub"
+echo -e "\n\n## Step 1: login to GitHub"
 gh auth login --git-protocol ssh --scopes workflow,delete_repo --hostname github.com
 
-echo "\n\n## Step 2: create project repository: {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
+echo -e "\n\n## Step 2: create project repository: {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
 # create/push empty repository before setting gh actions credentials
 gh repo create --public {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}
 git init
@@ -18,11 +18,11 @@ git branch -M main
 git remote add origin https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}.git
 git push -u origin main
 
-echo "\n\n## Step 3: set repository secrets"
+echo -e "\n\n## Step 3: set repository secrets"
 # credentials for gh actions
 gh secret set CHART_DEPLOY_KEY < /home/jovyan/.ssh/id_ed25519
 gh secret set DOCKERHUB_USERNAME --body "{{ cookiecutter.docker_username }}"
-echo "\n### Step 3.1: enter your Docker hub password"
+echo -e "\n### Step 3.1: enter your Docker hub password"
 gh secret set DOCKERHUB_PASSWORD
 
 # finally commit main branch files
@@ -33,7 +33,7 @@ gh secret set DOCKERHUB_PASSWORD
 git add .
 git commit -m "initial commit"
 
-echo "\n\n## Step 4: create GitHub pages branch"
+echo -e "\n\n## Step 4: create GitHub pages branch"
 # create gh pages branch
 git switch --orphan gh-pages
 
@@ -120,11 +120,11 @@ git add _data/ Gemfile _config.yml index.md
 git commit -m'initial commit'
 git push -u origin gh-pages
 
-echo "\n\n## Step 5: push changes"
+echo -e "\n\n## Step 5: push changes"
 git checkout main
 git push
 
-echo "\n\n## Step 6: set project description"
+echo -e "\n\n## Step 6: set project description"
 gh repo edit --description "{{ cookiecutter.project_description }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
 
 # gh workflow enable "Publish helm chart and docker images"
