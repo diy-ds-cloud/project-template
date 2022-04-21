@@ -2,8 +2,8 @@
 # https://jacobtomlinson.dev/posts/2019/how-to-create-a-helm-chart-repository-with-chartpress-travis-ci-github-pages-and-jekyll/
 
 charts:
-  - name: diy-r-future
-    imagePrefix: "{{ cookiecutter.docker_orgname }}/r-future-"
+  - name: "diy-{{ cookiecutter.github_reponame }}"
+    imagePrefix: "{{ cookiecutter.docker_orgname }}/diy-{{ cookiecutter.github_reponame }}-"
     repo:
       git: "{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
       published: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}

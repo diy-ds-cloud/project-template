@@ -100,10 +100,10 @@ $ helm repo update
 $ helm install myrelease {{ site.repo_name }}/{{ latest_chart.name }} --version {{ latest_chart.version }} --wait
 \`\`\`
 
-| Chart Version | App Version | Date |
-|---------------|-------------|------|
+| Chart | Chart Version | App Version | Date |
+|-------|---------------|-------------|------|
 {% for chart in all_charts -%}
-| [{{ chart.name }}-{{ chart.version }}]({{ chart.urls[0] }}) | {{ chart.appVersion }} | {{ chart.created | date_to_rfc822 }} |
+| [{{ chart.name }}-{{ chart.version }}]({{ chart.urls[0] }}) | {{ chart.version }} | {{ chart.appVersion }} | {{ chart.created | date_to_rfc822 }} |
 {% endfor -%}
 
 {% endfor %}
