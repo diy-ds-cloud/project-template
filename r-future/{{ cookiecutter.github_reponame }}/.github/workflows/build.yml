@@ -34,7 +34,7 @@ jobs:
 
       - name: Install chart publishing dependencies (chartpress, helm)
         run: |
-          . ./scripts/chartpress-common.sh
+          . ./application/scripts/chartpress-common.sh
           setup_helm v3.5.4
           pip install --no-cache-dir chartpress>=1.2 pyyaml
 
@@ -80,25 +80,5 @@ jobs:
         env:
           GITHUB_REPOSITORY: "${{ github.repository }}"
         run: |
-          ./scripts/chartpress-publish.sh
-
-  # PyPI-testbuild:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         # Versioneer requires past tags
-  #         fetch-depth: 0
-  #     - uses: actions/setup-python@v2
-  #       with:
-  #         python-version: '3.9'
-  #     - name: Install pypa/build
-  #       run: python -mpip install build
-  #     - name: Build a sdist, and a binary wheel from the sdist
-  #       run: python -mbuild .
-  #     # ref: https://github.com/actions/upload-artifact#readme
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: pypi-dist
-  #         path: "dist/*"
-  #         if-no-files-found: error
+          cd application
+          . ./scripts/chartpress-publish.sh

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-USER_ID="syoh@ucsb.edu"
-PROJECT_ID="testing-sandbox-324502"
-REGION_CODE="us-central1-a"
-HELM_CHART_VERSION="0.0.1-n002.h282189f"
+# USER_ID="syoh@ucsb.edu"
+# PROJECT_ID="testing-sandbox-324502"
+# REGION_CODE="us-central1-a"
+# HELM_CHART_VERSION="0.0.1-n002.h282189f"
 
 set -e
 
@@ -12,14 +12,14 @@ echo "DIY Cloud Computing for Data Science using R"
 echo "--------------------------------------------"
 
 echo "\n\n## Step 1: logging in as user, ${USER_ID}"
-gcloud auth login "${USER_ID}" --no-browser --update-adc
+gcloud auth login --no-browser --update-adc
 
-echo "\n\n## Step 2: creating cluster under project, ${PROJECT_ID} in region, ${REGION_CODE}"
+echo "\n\n## Step 2: creating cluster under project, ${PROJECT_ID} in region, ${ZONE_CODE}"
 terraform -chdir=cluster init
-terraform -chdir=cluster apply -var="project_id=${PROJECT_ID}" -var="region=${REGION_CODE}" -auto-approve
+terraform -chdir=cluster apply -var="project_id=${PROJECT_ID}" -var="region=${ZONE_CODE}" -auto-approve
 
 CLUSTER_NAME=$(terraform -chdir=cluster output -raw kubernetes_cluster_name)
-gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${REGION_CODE} --project=${PROJECT_ID}
+gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${ZONE_CODE} --project=${PROJECT_ID}
 
 echo "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
 helm repo add {{ cookiecutter.github_reponame }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}

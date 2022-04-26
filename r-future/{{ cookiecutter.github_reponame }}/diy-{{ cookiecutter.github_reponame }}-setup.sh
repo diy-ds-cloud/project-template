@@ -21,25 +21,59 @@ while true ; do
     esac
 done
 
+function login() {
+    echo "\n\n## Login to Google Cloud"
+    gcloud auth login --no-browser --update-adc
+}
+
+function read_config() {
+    echo "\n\n## Choose an existing project ID in which to create the cluster"
+    echo "  Copy/paste a PROJECT_ID from the following list:"
+    gcloud projects list
+    read PROJECT_ID
+
+    echo "\n\n## Choose a region and zone in which to create the cluster"
+    echo "  Copy/paste a NAME from the following list:"
+    gcloud compute zones list
+    read ZONE_ID
+
+    echo "\n\n## Choose an application version to install in the cluster"
+    echo "  Copy/paste a Chart Version from this URL:"
+    echo "  https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
+}
+
+function source_config() {
+    source $DIY_CONFIG_FILE
+}
+
+function write_config() {
+    echo "PROJECT_ID=$PROJECT_ID" >> $DIY_CONFIG_FILE
+    echo "ZONE_CODE=$ZONE_CODE" >> $DIY_CONFIG_FILE
+    echo "HELM_CHART_VERSION=$HELM_CHART_VERSION" >> $DIY_CONFIG_FILE
+}
+
+function apply_config() {
+    gcloud config set core/project "$PROJECT_ID"
+    gcloud config set compute/zone "$ZONE_ID"
+}
+
 if [[ ! -d $DIY_CONFIG_DIR ]]; then
     echo "dir doesn't exist"
     mkdir -p $DIY_CONFIG_DIR
 fi
 
-if [[ -f $DIY_CONFIG_FILE ]]; then
-    if [ $FORCE = true ]; then
-        rm $DIY_CONFIG_FILE
-    else
-        echo "Previous configuration exists: ${DIY_CONFIG_FILE}"
-        echo "Exiting"
-        exit 1
-    fi
+# delete any existing file if being forced
+if [ "$FORCE" = true ]; then
+    rm -f $DIY_CONFIG_FILE
 fi
 
-# echo "What is your GitHub ID?"
-echo "What is your Google Cloud username?"
-
-# USER_ID="syoh@ucsb.edu"
-# PROJECT_ID="testing-sandbox-324502"
-# REGION_CODE="us-central1-a"
-# HELM_CHART_VERSION="0.0.1-n002.h282189f"
+if [[ -f $DIY_CONFIG_FILE ]]; then
+    source_config
+    login
+    apply_config
+else
+    login
+    read_config
+    apply_config
+    write_config
+fi
