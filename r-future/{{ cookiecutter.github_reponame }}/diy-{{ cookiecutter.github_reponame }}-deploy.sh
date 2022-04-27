@@ -11,22 +11,22 @@ echo "--------------------------------------------"
 echo "DIY Cloud Computing for Data Science using R"
 echo "--------------------------------------------"
 
-echo "\n\n## Step 1: logging in as user, ${USER_ID}"
+echo -e "\n\n## Step 1: logging in as user, ${USER_ID}"
 gcloud auth login --no-browser --update-adc
 
-echo "\n\n## Step 2: creating cluster under project, ${PROJECT_ID} in region, ${ZONE_CODE}"
+echo -e "\n\n## Step 2: creating cluster under project, ${PROJECT_ID} in region, ${ZONE_CODE}"
 terraform -chdir=cluster init
 terraform -chdir=cluster apply -var="project_id=${PROJECT_ID}" -var="region=${ZONE_CODE}" -auto-approve
 
 CLUSTER_NAME=$(terraform -chdir=cluster output -raw kubernetes_cluster_name)
 gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${ZONE_CODE} --project=${PROJECT_ID}
 
-echo "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
+echo -e "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
 helm repo add {{ cookiecutter.github_reponame }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}
 helm repo update
-helm install myrelease {{ cookiecutter.github_reponame }}/diy-{{ cookiecutter.github_reponame }} --version "${HELM_CHART_VERSION}" --wait
+helm install myrelease {{ cookiecutter.github_reponame }}/{{ cookiecutter.__diy-project-name }} --version "${HELM_CHART_VERSION}" --wait
 
 {% raw %}
-SERVICE_IP=$(kubectl get svc myrelease-diy-{{ cookiecutter.github_reponame }}-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+SERVICE_IP=$(kubectl get svc myrelease-{{ cookiecutter.__diy-project-name }}-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
 {% endraw %}
 echo "\n\n## Rstudio is available at URL: http://$SERVICE_IP:80"

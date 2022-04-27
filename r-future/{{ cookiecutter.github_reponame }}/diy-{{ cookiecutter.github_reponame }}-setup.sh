@@ -2,7 +2,7 @@
 
 set -e
 
-DIY_CONFIG_DIR="${HOME}/.config/diy-{{ cookiecutter.github_reponame }}"
+DIY_CONFIG_DIR="${HOME}/.config/{{ cookiecutter.__diy-project-name }}"
 DIY_CONFIG_FILE="${DIY_CONFIG_DIR}/config.sh"
 
 TEMP=$(getopt -o f --long force \
