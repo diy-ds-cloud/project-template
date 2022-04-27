@@ -1,5 +1,5 @@
 apiVersion: v2
-name: "{{ cookiecutter.__diy-project-name }}"
+name: "{{ cookiecutter.__diy_project_name }}"
 description: DIY Cloud Computing with R
 
 # A chart can be either an 'application' or a 'library' chart.

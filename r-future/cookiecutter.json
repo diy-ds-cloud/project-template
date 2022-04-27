@@ -4,11 +4,11 @@
     "github_username": "syoh",
     "github_orgname": "diy-ds-cloud",
     "github_reponame": "asdf",
-    "__diy-project-name": "diy-{{ cookiecutter.github_reponame }}",
+    "__diy_project_name": "diy-{{ cookiecutter.github_reponame }}",
     "docker_username": "syoh",
     "docker_orgname": "dddlab",
     "_copy_without_render": [
-        "application/{{ cookiecutter.diy-project-name }}/templates/*",
+        "application/{{ cookiecutter.__diy_project_name }}/templates/*",
         "binder/*",
         ".github/workflows/build.yml"
     ]

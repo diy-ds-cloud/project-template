@@ -7,13 +7,13 @@
 
 set -e
 
-DIY_CONFIG_DIR="${HOME}/.config/{{ cookiecutter.__diy-project-name }}"
+DIY_CONFIG_DIR="${HOME}/.config/{{ cookiecutter.__diy_project_name }}"
 DIY_CONFIG_FILE="${DIY_CONFIG_DIR}/config.sh"
 
 if [[ -f $DIY_CONFIG_FILE ]]; then
     source $DIY_CONFIG_FILE
 else
-    echo "Run {{ cookiecutter.__diy-project-name }}-setup.sh first before running this script"
+    echo "Run {{ cookiecutter.__diy_project_name }}-setup.sh first before running this script"
     exit 1
 fi
 
@@ -31,9 +31,9 @@ gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${ZONE_CODE} --
 echo -e "\n\n## Deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
 helm repo add {{ cookiecutter.github_reponame }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}
 helm repo update
-helm install myrelease {{ cookiecutter.github_reponame }}/{{ cookiecutter.__diy-project-name }} --version "${HELM_CHART_VERSION}" --wait
+helm install myrelease {{ cookiecutter.github_reponame }}/{{ cookiecutter.__diy_project_name }} --version "${HELM_CHART_VERSION}" --wait
 
 {% raw %}
-SERVICE_IP=$(kubectl get svc myrelease-{{ cookiecutter.__diy-project-name }}-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+SERVICE_IP=$(kubectl get svc myrelease-{{ cookiecutter.__diy_project_name }}-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
 {% endraw %}
 echo "\n\n## Rstudio is available at URL: http://$SERVICE_IP:80"
