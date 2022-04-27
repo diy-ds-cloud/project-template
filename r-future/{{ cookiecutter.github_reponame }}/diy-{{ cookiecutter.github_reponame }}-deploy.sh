@@ -24,9 +24,9 @@ gcloud container clusters get-credentials ${CLUSTER_NAME} --zone=${ZONE_CODE} --
 echo "\n\n## Step 3: deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"
 helm repo add {{ cookiecutter.github_reponame }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}
 helm repo update
-helm install myrelease {{ cookiecutter.github_reponame }}/diy-r-future --version "${HELM_CHART_VERSION}" --wait
+helm install myrelease {{ cookiecutter.github_reponame }}/diy-{{ cookiecutter.github_reponame }} --version "${HELM_CHART_VERSION}" --wait
 
 {% raw %}
-SERVICE_IP=$(kubectl get svc myrelease-diy-r-future-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+SERVICE_IP=$(kubectl get svc myrelease-diy-{{ cookiecutter.github_reponame }}-notebook --namespace default --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
 {% endraw %}
 echo "\n\n## Rstudio is available at URL: http://$SERVICE_IP:80"
