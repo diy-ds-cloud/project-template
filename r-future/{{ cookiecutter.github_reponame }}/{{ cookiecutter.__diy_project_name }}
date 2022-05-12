@@ -1,6 +1,5 @@
 #!/opt/conda/bin/python
 
-from urllib.request import urlopen
 import click
 import subprocess
 from pathlib import Path
@@ -11,14 +10,16 @@ import json
 # # DIY_CONFIG_DIR = Path.home() / ".config" / DIY_PROJ_NAME
 # # DIY_CONFIG_FILE = DIY_CONFIG_DIR / "config.json"
 
-PROJ_NAME = "zxcv"
-DIY_PROJ_NAME = "diy-zxcv"
+PROJ_NAME = "{{ cookiecutter.github_reponame }}"
+DIY_PROJ_NAME = "{{ cookiecutter.__diy_project_name }}"
+# PROJ_NAME = "zxcv"
+# DIY_PROJ_NAME = "diy-zxcv"
 DIY_CONFIG_DIR = Path.home() / ".config" / DIY_PROJ_NAME
 DIY_CONFIG_FILE = DIY_CONFIG_DIR / "config.json"
 
 # DIY_CHART_NAME = "{{ cookiecutter.__diy_project_name }}"
-# DIY CHART_URL = "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}/index.yaml"
-DIY_CHART_URL = "https://diy-ds-cloud.github.io/zxcv/"
+DIY_CHART_URL = "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}/"
+# DIY_CHART_URL = "https://diy-ds-cloud.github.io/zxcv/"
 DIY_CHART_INDEX = DIY_CHART_URL + "index.yaml"
 DIY_CHART_NAME = DIY_PROJ_NAME
 DIY_CHART_VERSION = None
