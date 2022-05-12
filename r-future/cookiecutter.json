@@ -3,7 +3,7 @@
     "project_description": "My data science project using cloud computing",
     "github_username": "syoh",
     "github_orgname": "diy-ds-cloud",
-    "github_reponame": "asdf",
+    "github_reponame": "zxcv",
     "__diy_project_name": "diy-{{ cookiecutter.github_reponame }}",
     "docker_username": "syoh",
     "docker_orgname": "dddlab",
