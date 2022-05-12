@@ -372,6 +372,9 @@ class Config:
             "chart_version": self.chart_version
         }
 
+        if not Path(filename).parents[0].exists():
+            Path(filename).parents[0].mkdir(parents=True)
+
         with Path(filename).open(mode='w') as fp:
             json.dump(cfg, fp)
 
