@@ -350,7 +350,6 @@ class Config:
 
             raise
 
-
     def validate(self):
 
         click.echo("validating..." + str(self))
@@ -525,8 +524,8 @@ def deploy():
         cmd = "terraform -chdir=cluster init"
         build_cmd(cmd)
         
-        cmd = 'terraform -chdir=cluster apply -var=project_id=%s -var=region=%s -auto-approve'
-        build_cmd(cmd, (cfg.project_id, cfg.compute_zone))
+        cmd = 'terraform -chdir=cluster apply -var=project_id=%s -var=region=%s -var=diy_project_name=%s -auto-approve'
+        build_cmd(cmd, (cfg.project_id, cfg.compute_zone, DIY_PROJ_NAME))
 
         cmd = "terraform -chdir=cluster output -raw kubernetes_cluster_name"
         CLUSTER_NAME = build_cmd(cmd, stdout=subprocess.PIPE).stdout.decode()
