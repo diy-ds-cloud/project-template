@@ -1,0 +1,76 @@
+{
+    "data": {
+        "layout-restorer:data": {
+            "main": {
+                "dock": {
+                    "type": "split-area",
+                    "orientation": "horizontal",
+                    "sizes": [
+                        0.5,
+                        0.5
+                    ],
+                    "children": [
+                        {
+                            "type": "tab-area",
+                            "currentIndex": 0,
+                            "widgets": [
+                                "markdownviewer-widget:{{ cookiecutter.github_reponame }}/README.md"
+                            ]
+                        },
+                        {
+                            "type": "tab-area",
+                            "currentIndex": 0,
+                            "widgets": [
+                                "terminal:1"
+                            ]
+                        }
+                    ]
+                },
+                "current": "terminal:1"
+            },
+            "down": {
+                "size": 0,
+                "widgets": []
+            },
+            "left": {
+                "collapsed": false,
+                "current": "filebrowser",
+                "widgets": [
+                    "filebrowser",
+                    "running-sessions",
+                    "@jupyterlab/toc:plugin",
+                    "extensionmanager.main-view"
+                ]
+            },
+            "right": {
+                "collapsed": true,
+                "widgets": [
+                    "jp-property-inspector",
+                    "debugger-sidebar"
+                ]
+            },
+            "relativeSizes": [
+                0.1424517593643587,
+                0.8575482406356413,
+                0
+            ]
+        },
+        "file-browser-filebrowser:cwd": {
+            "path": "{{ cookiecutter.github_reponame }}"
+        },
+        "terminal:1": {
+            "data": {
+                "name": "1"
+            }
+        },
+        "markdownviewer-widget:{{ cookiecutter.github_reponame }}/README.md": {
+            "data": {
+                "path": "{{ cookiecutter.github_reponame }}/README.md",
+                "factory": "Markdown Preview"
+            }
+        }
+    },
+    "metadata": {
+        "id": "default"
+    }
+}

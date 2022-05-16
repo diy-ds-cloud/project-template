@@ -20,7 +20,7 @@ This project will help you create a [Kubernetes cluster](https://kubernetes.io/d
 
 1. [Binder](https://mybinder.org) can start a customized computing environment in the browser with software requirements pre-installed.  
     Start a Binder session by clicking on the badge:  
-    [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dddlab/rewq/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fdddlab%252Frewq%26urlpath%3Dlab%252Ftree%252Frewq%252F%26branch%3Dmain)
+    [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252F{{ cookiecutter.github_orgname }}%252F{{ cookiecutter.github_reponame }}%26urlpath%3Dlab%252Ftree%252F{{ cookiecutter.github_reponame }}%252F%26branch%3Dmain) 
 1. Start a [terminal session in Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/user/terminal.html)
 1. In a terminal prompt, execute  
     ```bash
