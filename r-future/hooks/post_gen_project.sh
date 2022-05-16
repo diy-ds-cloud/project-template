@@ -128,3 +128,7 @@ echo -e "\n\n## Step 6: set project description"
 gh repo edit --description "{{ cookiecutter.project_description }} https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
 
 # gh workflow enable "Publish helm chart and docker images"
+echo -e "\n\n## Step 7: relevant links"
+echo -e "## GitHub repository: https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
+echo -e "## Helm Chart GitHub page: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
+echo -e "## Docker images: https://hub.docker.com/u/{{ cookiecutter.docker_orgname }}"
