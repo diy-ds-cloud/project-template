@@ -49,6 +49,6 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     echo "bindkey 'jk' vi-cmd-mode" >> $HOME/.zshrc && \
     echo "export EDITOR='vim'" >> $HOME/.zshrc && \
     \
-    pip install nbgitpuller
+    pip install nbgitpuller click pyyaml
 
 ENV SHELL=/usr/bin/zsh
