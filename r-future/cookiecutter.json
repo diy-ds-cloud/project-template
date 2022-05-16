@@ -9,7 +9,6 @@
     "docker_orgname": "dddlab",
     "_copy_without_render": [
         "application/{{ cookiecutter.__diy_project_name }}/templates/*",
-        "binder/*",
         ".github/workflows/build.yml"
     ]
 }
