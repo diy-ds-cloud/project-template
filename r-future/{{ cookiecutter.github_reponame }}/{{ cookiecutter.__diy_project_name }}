@@ -485,10 +485,9 @@ def config(from_file, config_file, save_config, force_init):
         cfg = Config()
         cfg.get_status()
 
-        message  = ["Configuration read from %s" % (DIY_CONFIG_FILE)] if from_file else ["Configuration read from current settings in effect"]
-        message += ["%s" % (cfg)]
-
-        click.echo("\n".join(message))
+        if not cfg.validate():
+            click.echo("Cannot read from current status. Creating a new configuration")
+            cfg.apply()
 
     if save_config:
         assert cfg.validate(), "Config is not valid. Not saving"
