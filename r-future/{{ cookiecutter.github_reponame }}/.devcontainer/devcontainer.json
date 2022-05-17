@@ -7,7 +7,7 @@
 
 	"service": "jupyterlab",
 
-	"workspaceFolder": "/home/jovyan",
+	"workspaceFolder": "/home/jovyan/{{ cookiecutter.github_reponame }}",
 
 	"extensions": [
 		"ms-python.python",
