@@ -1,0 +1,1 @@
+https://github.com/cookiecutter/cookiecutter/archive/refs/tags/2.0.2.tar.gz
