@@ -37,12 +37,24 @@ If you haven't already, start a Binder session by clicking on the badge above. T
 |------------------|----------------------------|-------------------------|
 | Command          | `cookiecutter python-dask` | `cookiecutter r-future` |
 
-When the process completes, you should get a message similar to the following:
-```
+When the process completes, all generated files have been uploaded to the newly created GitHub repository. At the end of generation, you should get a message similar to the following:
 
 ```
+## Step 7: relevant links
+## GitHub repository: https://github.com/diy-ds-cloud/my-ds-project
+## Helm Chart GitHub page: https://diy-ds-cloud.github.io/my-ds-project
+## Docker images: https://hub.docker.com/u/dddlab
+```
 
-### Step 4: Inspect project repository
+When GitHub action shows successful completion, these links are to the artifacts your project repository generated. This process of building the Helm chart and Docker images will automatically run after every commit.
+
+In your Binder session, generated files are located in the home directory. If my repository name is `my-ds-project`, the directory would be at `/home/jovyan/my-ds-project`. 
+
+You are free to close your Binder session if you wish.
+
+### Step 4: Customize your project's files
+
+Now, you can step over to your project's README file to deploy your infrastructure!
 
 ## Technical details
 

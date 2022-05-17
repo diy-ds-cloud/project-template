@@ -15,6 +15,8 @@ gh repo create --public {{ cookiecutter.github_orgname }}/{{ cookiecutter.github
 
 git config --global 'credential.https://github.com.helper' ''
 git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
+git config --global user.email "you@example.com"
+git config --global user.name "DIY Data Science Cloud Computing"
 
 git init
 git commit --allow-empty -m "empty commit"
@@ -134,5 +136,7 @@ gh repo edit --description "{{ cookiecutter.project_description }} https://{{ co
 # gh workflow enable "Publish helm chart and docker images"
 echo -e "\n\n## Step 7: relevant links"
 echo -e "## GitHub repository: https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
-echo -e "## Helm Chart GitHub page: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
+echo -e "## GitHub action status: https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}/actions"
+echo -e "## Helm chart: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}"
 echo -e "## Docker images: https://hub.docker.com/u/{{ cookiecutter.docker_orgname }}"
+echo -e "## Helm chart and Docker images are available after GitHub action completes"
