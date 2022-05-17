@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:aa14e4498c6b
+FROM jupyter/minimal-notebook:44fe185f9495
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}/work
