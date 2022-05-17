@@ -19,6 +19,7 @@ RUN apt-get update && \
     echo "deb [arch=amd64] https://apt.releases.hashicorp.com focal main" | \
         tee /etc/apt/sources.list.d/terraform.list > /dev/null && \
     \
+    apt-get update && \
     apt-get install gh google-cloud-cli terraform
 
 # RUN \
