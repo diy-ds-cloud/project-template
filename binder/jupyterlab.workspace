@@ -1,2 +1,78 @@
-{"data":{"layout-restorer:data":{"main":{"dock":{"type":"split-area","orientation":"horizontal","sizes":[0.5,0.5],"children":[{"type":"tab-area","currentIndex":0,"widgets":["terminal:1"]},{"type":"tab-area","currentIndex":0,"widgets":["markdownviewer-widget:work/README.md"]}]},"current":"markdownviewer-widget:work/README.md"},"down":{"size":0,"widgets":[]},"left":{"collapsed":false,"current":"filebrowser","widgets":["filebrowser","running-sessions","@jupyterlab/toc:plugin","extensionmanager.main-view"]},"right":{"collapsed":true,"widgets":["jp-property-inspector","debugger-sidebar"]},"relativeSizes":[0.1424517593643587,0.8575482406356413,0]},"terminal:1":{"data":{"name":"1"}},"file-browser-filebrowser:cwd":{"path":"work"},"markdownviewer-widget:work/README.md":{"data":{"path":"work/README.md","factory":"Markdown Preview"}}},"metadata":{"id":"default","last_modified":"2022-05-17T12:27:46.188788+00:00","created":"2022-05-17T12:27:46.188788+00:00"}}
-
+{
+    "data": {
+        "layout-restorer:data": {
+            "main": {
+                "dock": {
+                    "type": "split-area",
+                    "orientation": "horizontal",
+                    "sizes": [
+                        0.5,
+                        0.5
+                    ],
+                    "children": [
+                        {
+                            "type": "tab-area",
+                            "currentIndex": 0,
+                            "widgets": [
+                                "terminal:1"
+                            ]
+                        },
+                        {
+                            "type": "tab-area",
+                            "currentIndex": 0,
+                            "widgets": [
+                                "markdownviewer-widget:work/README.md"
+                            ]
+                        }
+                    ]
+                },
+                "current": "markdownviewer-widget:work/README.md"
+            },
+            "down": {
+                "size": 0,
+                "widgets": []
+            },
+            "left": {
+                "collapsed": false,
+                "current": "filebrowser",
+                "widgets": [
+                    "filebrowser",
+                    "running-sessions",
+                    "@jupyterlab/toc:plugin",
+                    "extensionmanager.main-view"
+                ]
+            },
+            "right": {
+                "collapsed": true,
+                "widgets": [
+                    "jp-property-inspector",
+                    "debugger-sidebar"
+                ]
+            },
+            "relativeSizes": [
+                0.1424517593643587,
+                0.8575482406356413,
+                0
+            ]
+        },
+        "terminal:1": {
+            "data": {
+                "name": "1"
+            }
+        },
+        "file-browser-filebrowser:cwd": {
+            "path": "work"
+        },
+        "markdownviewer-widget:work/README.md": {
+            "data": {
+                "path": "work/README.md",
+                "factory": "Markdown Preview"
+            }
+        }
+    },
+    "metadata": {
+        "id": "default",
+        "last_modified": "2022-05-17T12:27:46.188788+00:00",
+        "created": "2022-05-17T12:27:46.188788+00:00"
+    }
+}
