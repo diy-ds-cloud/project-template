@@ -13,8 +13,8 @@ echo -e "\n\n## Step 2: create project repository: {{ cookiecutter.github_orgnam
 # create/push empty repository before setting gh actions credentials
 gh repo create --public {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}
 
-git config user.email "user@somewhere.com"
-git config user.name "DIY Cloud Computing"
+git config --global 'credential.https://github.com.helper' ''
+git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
 
 git init
 git commit --allow-empty -m "empty commit"
