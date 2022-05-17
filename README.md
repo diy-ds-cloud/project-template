@@ -14,16 +14,19 @@ When instantiating the template, Cookiecutter will ask you to supply the followi
 
 1. Project name
 1. Project description
-1. GitHub user name
-1. GitHub organization name (defaults to GitHub username)
-1. GitHub repository name
-1. Docker Hub username
-1. Docker Hub organization name (defaults to Docker username)
+1. GitHub user name, organization name (defaults to user name), repository name
+1. Docker Hub username, organization name (defaults to user name)
 
-After the Binder session has started, execute the following command in the terminal:
-```bash
-cookiecutter 
-```
+## Distributed Computing with Python or R
+
+This repository contains templates for creating projects in Python or R. Distributed computing is accomplished by starting a Kubernetes cluster on Google Cloud, then populating the "pods" with suitable Docker images for scheduler and workers.
+
+|                  | Python                                          | R                          	           |
+|------------------|-------------------------------------------------|-----------------------------------------|
+| Command          | `cookiecutter python-dask`                      | `cookiecutter r-future`                 |
+| Parallel library | [Dask](https://dask.org)                        | [Future](https://future.futureverse.org)|
+| User interface   | [Jupyter Lab](https://jupyter.org)              | [RStudio](https://www.rstudio.com)      |
+| Deployed pods    | 1 x Jupyter Lab<br>1 x scheduler<br>2 x workers | 1 x RStudio<br>2 x workers 	           |
 
 ## Technical details
 
