@@ -7,12 +7,10 @@
 
 	"service": "jupyterlab",
 
-	"workspaceFolder": "/home/jovyan",
+	"workspaceFolder": "/home/jovyan/{{ cookiecutter.github_reponame }}",
 
 	"extensions": [
 		"ms-python.python",
-		"ms-toolsai.jupyter",
-		"ms-toolsai.jupyter-keymap",
 		"redhat.vscode-yaml",
 		"ms-kubernetes-tools.vscode-kubernetes-tools"
 	],
@@ -21,8 +19,7 @@
 		"python.defaultInterpreterPath": "/opt/conda/bin/python"
 		"vs-kubernetes": {
 			"vscode-kubernetes.helm-path.linux": "/usr/local/bin/helm",
-			"vscode-kubernetes.kubectl-path.linux": "/usr/local/bin/kubectl",
-			"vscode-kubernetes.minikube-path.linux": "/usr/bin/minikube"
+			"vscode-kubernetes.kubectl-path.linux": "/usr/local/bin/kubectl"
 		},
 	},
 
