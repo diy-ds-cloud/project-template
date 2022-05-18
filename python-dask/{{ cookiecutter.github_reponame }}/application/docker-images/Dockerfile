@@ -15,11 +15,11 @@ RUN mamba install --yes \
     python-graphviz
 
 # COPY --chown=1000:100 dask-config.yaml /home/jovyan/.config/dask/labextension-config.yaml
-COPY --chown=${NB_UID}:${NB_GID} etc/dask-config.yaml /home/jovyan/.dask/labextension-config.yaml
-COPY --chown=${NB_UID}:${NB_GID} etc/dask-dashboard.sh /usr/local/bin/start-notebook.d/dask-dashboard.sh
+COPY --chown=${NB_UID}:${NB_GID} ${DIR_PREFIX}/etc/dask-config.yaml /home/jovyan/.dask/labextension-config.yaml
+COPY --chown=${NB_UID}:${NB_GID} ${DIR_PREFIX}/etc/dask-dashboard.sh /usr/local/bin/start-notebook.d/dask-dashboard.sh
 # COPY --chown=1000:100 dask-dashboard.sh /usr/local/bin/before-notebook.d/dask-dashboard.sh
-COPY --chown=${NB_UID}:${NB_GID} etc/jupyterlab-workspace.json jupyterlab-workspace.json
-# COPY --chown=${NB_UID}:${NB_GID} scripts/array.ipynb work/array.ipynb
+COPY --chown=${NB_UID}:${NB_GID} ${DIR_PREFIX}/etc/jupyterlab-workspace.json jupyterlab-workspace.json
+COPY --chown=${NB_UID}:${NB_GID} ${DIR_PREFIX}/scripts/array.ipynb work/array.ipynb
 
 # RUN jupyter lab workspaces import jupyterlab-workspace.json
 
