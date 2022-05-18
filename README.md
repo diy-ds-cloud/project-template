@@ -2,7 +2,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/diy-ds-cloud/project-template/HEAD)
 
-**Important**: This repository contains [cookicutter templates](https://github.com/cookiecutter/cookiecutter#readme) that require [other software]() to generate properly.
+**Important**: This repository contains [cookicutter templates](https://github.com/cookiecutter/cookiecutter#readme) that require [other software](https://github.com/diy-ds-cloud/project-template#software-prerequisites) to generate properly.
 
 To start, click on the badge above and follow rest of the steps in the Binder session.
 

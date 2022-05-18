@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "diy.fullname" . }}-notebook
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: notebook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "diy.name" . }}
+      release: {{ .Release.Name | quote }}
+      component: notebook
+  template:
+    metadata:
+      labels:
+        app: {{ template "diy.name" . }}
+        release: {{ .Release.Name | quote }}
+        component: notebook
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.notebook.image.repository }}"
+          imagePullPolicy: {{ .Values.notebook.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args: # default password is "diy-cloud"
+            - > 
+              /usr/local/bin/start-notebook.sh
+              --ServerApp.password="{{ .Values.notebook.ui.hashedPassword }}"
+              --LabApp.default_url=/lab/workspaces/lab
+          env:
+            - name: "DASK_SCHEDULER_ADDRESS"
+              value: "{{ include "diy.fullname" . }}-scheduler:{{ .Values.scheduler.controller.targetPort }}"
+            - name: "DASK_DASHBOARD_ADDRESS"
+              value: "{{ include "diy.fullname" . }}-scheduler:{{ .Values.scheduler.ui.targetPort }}"
+          resources:
+            {{- toYaml .Values.notebook.resources | nindent 12 }}
