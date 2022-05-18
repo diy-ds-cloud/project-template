@@ -1,0 +1,17 @@
+distributed:
+  logging:
+    bokeh: critical
+
+  dashboard:
+    link: "/proxy/{DASK_DASHBOARD_ADDRESS}/status"
+
+  admin:
+    tick:
+      limit: 5s
+
+labextension:
+  factory:
+    module: dask_kubernetes
+    class: KubeCluster
+    args: []
+    kwargs: {}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "diy.fullname" . }}-scheduler
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "diy.name" . }}
+      release: {{ .Release.Name | quote }}
+      component: scheduler
+  template:
+    metadata:
+      labels:
+        app: {{ template "diy.name" . }}
+        release: {{ .Release.Name | quote }}
+        component: scheduler
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.scheduler.image.repository }}"
+          imagePullPolicy: {{ .Values.scheduler.image.pullPolicy }}
+          args:
+            - dask-scheduler
+            - --port
+            - "{{ .Values.scheduler.controller.targetPort }}"
+            - --dashboard-address
+            - "{{ .Values.scheduler.ui.targetPort }}"
+          resources:
+            {{- toYaml .Values.scheduler.resources | nindent 12 }}

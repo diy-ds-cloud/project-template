@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "diy.fullname" . }}-notebook
+  labels:
+    app: {{ template "diy.name" . }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ template "diy.chart" . }}
+    component: notebook
+spec:
+  type: {{ .Values.notebook.ui.serviceType }}
+  ports:
+    - name: {{ include "diy.fullname" .}}-ui
+      port: {{ .Values.notebook.ui.servicePort }}
+      targetPort: {{ .Values.notebook.ui.targetPort }}
+    - name: {{ include "diy.fullname" .}}-controller
+      port: {{ .Values.notebook.controller.servicePort }}
+      targetPort: {{ .Values.notebook.controller.targetPort }}
+  selector:
+    app: {{ template "diy.name" . }}
+    release: {{ .Release.Name | quote }}
+    component: notebook

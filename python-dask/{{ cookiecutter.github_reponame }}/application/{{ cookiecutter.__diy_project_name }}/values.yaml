@@ -1,0 +1,63 @@
+nameOverride: ""
+fullnameOverride: ""
+
+scheduler:
+
+  image:
+    repository: "{{ cookiecutter.docker_orgname }}/python-dask-worker:set-by-chartpress"
+    # repository: syoh/dask-worker
+    pullPolicy: Always
+  resources: {}
+
+  ui:
+    # serviceType: ClusterIP
+    serviceType: LoadBalancer
+    servicePort: 8787
+    targetPort: 8787
+
+  controller:
+    servicePort: 8786
+    targetPort: 8786
+
+notebook:
+
+  image:
+    repository: "{{ cookiecutter.docker_orgname }}/python-dask-notebook:set-by-chartpress"
+    # repository: syoh/dask-notebook
+    # repository: syoh/r-notebook
+    tag: b6fdd5dae6cb
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+  resources: {}
+
+  ui:
+    hashedPassword: "sha1:3c5a4b522718:bf63e22afd2f2d08d9ef0262f69697c9fa4baa2c"
+    # serviceType: ClusterIP
+    serviceType: LoadBalancer
+    servicePort: 80
+    targetPort: 8888
+
+  controller:
+    servicePort: 11562
+    targetPort: 11562
+
+worker:
+
+  replicaCount: 2
+  image:
+    repository: "{{ cookiecutter.docker_orgname }}/python-dask-worker:set-by-chartpress"
+    # repository: syoh/dask-worker
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+  resources: {}
+
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi

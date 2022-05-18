@@ -1,0 +1,27 @@
+{
+	"name": "Jupyter",
+
+	"dockerComposeFile": [
+		"docker-compose.yml",
+	],
+
+	"service": "jupyterlab",
+
+	"workspaceFolder": "/home/jovyan/{{ cookiecutter.github_reponame }}",
+
+	"extensions": [
+		"ms-python.python",
+		"redhat.vscode-yaml",
+		"ms-kubernetes-tools.vscode-kubernetes-tools"
+	],
+
+	"settings": {
+		"python.defaultInterpreterPath": "/opt/conda/bin/python"
+		"vs-kubernetes": {
+			"vscode-kubernetes.helm-path.linux": "/usr/local/bin/helm",
+			"vscode-kubernetes.kubectl-path.linux": "/usr/local/bin/kubectl"
+		},
+	},
+
+	"remoteUser": "jovyan",
+}
