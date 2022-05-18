@@ -1,18 +1,18 @@
 ARG BUILD_STAGE=worker
 
-FROM jupyter/scipy-notebook:b6fdd5dae6cb AS dask-worker
+FROM jupyter/scipy-notebook:b6fdd5dae6cb AS worker
 
 ARG DIR_PREFIX=.
 
 COPY --chown=${NB_UID}:${NB_GID} . ${HOME}/work/
 
-FROM dask-worker AS dask-notebook
+FROM worker AS notebook
+
+ARG DIR_PREFIX=.
 
 RUN mamba install --yes \
     dask-labextension>=5 \
     python-graphviz
-
-ARG DIR_PREFIX=.
 
 # COPY --chown=1000:100 dask-config.yaml /home/jovyan/.config/dask/labextension-config.yaml
 COPY --chown=${NB_UID}:${NB_GID} etc/dask-config.yaml /home/jovyan/.dask/labextension-config.yaml

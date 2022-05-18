@@ -2,38 +2,42 @@ version: "3.1"
 
 services:
 
-  r-worker:
+  dask-scheduler:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
       target: worker
-    image: r-future:worker-latest
-    command: >
-      bash -c "
-      /opt/conda/bin/future-vars.sh
-      --run-mode worker
-      --scheduler rstudio
-      --port 11562
-      "
+    image: python-dask:worker-latest
+    hostname: dask-scheduler
+    ports:
+      - 8787:8787
+      - 8786:8786
+    command: ["dask-scheduler"]
+
+  dask-worker:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: worker
+    image: python-dask:worker-latest
+    command: ["dask-worker", "tcp://dask-scheduler:8786"]
     deploy:
       replicas: 2
 
-  rstudio:
+  dask-notebook:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
-      target: rstudio
-    image: r-future:rstudio-latest
-    hostname: rstudio
+      target: notebook
+    image: python-dask:notebook-latest
+    hostname: dask-notebook
     ports:
       - "8888:8888"
-      - "11562:11562"
-    command: >
-      bash -c "
-      /opt/conda/bin/future-vars.sh
-      --run-mode scheduler
-      --port 11562
-      --n-workers 2;
-      start-notebook.sh
-      --ServerApp.custom_display_url='http://127.0.0.1:8888/rstudio'
-      "
+    environment:
+      - DASK_SCHEDULER_ADDRESS=dask-scheduler:8786
+      - DASK_DASHBOARD_ADDRESS=dask-scheduler:8787
+      - DASK_DISTRIBUTED__DASHBOARD__LINK="/proxy/{DASK_DASHBOARD_ADDRESS}/status"
+    command:
+      - start-notebook.sh
+      - --ServerApp.password=sha1:3c5a4b522718:bf63e22afd2f2d08d9ef0262f69697c9fa4baa2c
+      - --LabApp.default_url=/lab/workspaces/lab

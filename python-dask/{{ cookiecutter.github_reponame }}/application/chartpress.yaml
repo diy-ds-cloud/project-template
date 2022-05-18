@@ -20,7 +20,7 @@ charts:
         contextPath: .
         dockerfilePath: docker-images/Dockerfile
         buildArgs:
-          BUILD_STAGE: "rstudio"
+          BUILD_STAGE: "notebook"
           DIR_PREFIX: "docker-images"
         valuesPath:
           - notebook.image.repository
