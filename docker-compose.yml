@@ -4,7 +4,7 @@ services:
 
   jupyterlab:
 
-    image: dddlab/base-python:latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-dev:latest
 
     build:
       context: ./
