@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  jupyterlab:
+
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}:latest
+
+    build:
+      context: ./
+      dockerfile: binder/Dockerfile
+
+    ports:
+      - 8888:8888
+
+    user: root
+
+    environment:
+      - RESTARTABLE=yes
+      - GEN_CERT=yes
+      - GRANT_SUDO=yes
+      - JUPYTER_TOKEN=asdf
+      # - DOCKER_STACKS_JUPYTER_CMD=lab
+
+    volumes:
+      - ${PWD}:/home/jovyan/work

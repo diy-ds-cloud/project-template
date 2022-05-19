@@ -8,15 +8,16 @@ echo "--------------------------------------------"
 
 echo -e "\n\n## Step 1: login to GitHub"
 gh auth login --git-protocol ssh --scopes workflow,delete_repo --hostname github.com
+gh auth setup-git
+
+# git config --global --replace-all 'credential.https://github.com.helper' ''
+# git config --global --replace-all 'credential.https://github.com.helper' '!gh auth git-credential'
+# git config --global user.email "you@example.com"
+# git config --global user.name "DIY Data Science Cloud Computing"
 
 echo -e "\n\n## Step 2: create project repository: {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
 # create/push empty repository before setting gh actions credentials
 gh repo create --public {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}
-
-git config --global 'credential.https://github.com.helper' ''
-git config --global --add 'credential.https://github.com.helper' '!gh auth git-credential'
-git config --global user.email "you@example.com"
-git config --global user.name "DIY Data Science Cloud Computing"
 
 git init
 git commit --allow-empty -m "empty commit"
@@ -26,7 +27,7 @@ git push -u origin main
 
 echo -e "\n\n## Step 3: set repository secrets"
 # credentials for gh actions
-gh secret set CHART_DEPLOY_KEY < /home/jovyan/.ssh/id_ed25519
+gh secret set CHART_DEPLOY_KEY < ${HOME}/.ssh/id_ed25519
 gh secret set DOCKERHUB_USERNAME --body "{{ cookiecutter.docker_username }}"
 echo -e "\n### Step 3.1: enter your Docker hub password"
 gh secret set DOCKERHUB_PASSWORD
