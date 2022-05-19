@@ -27,8 +27,21 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install gh google-cloud-cli terraform
 
+RUN \
+    # install kubectl
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
+    rm kubectl && \
+    \
+    # install helm
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 USER ${NB_USER}
 
-RUN pip install --no-cache-dir https://github.com/cookiecutter/cookiecutter/archive/refs/tags/2.0.2.tar.gz
+RUN pip install --no-cache-dir \
+    nbgitpuller \
+    click \
+    pyyaml \
+    https://github.com/cookiecutter/cookiecutter/archive/refs/tags/2.0.2.tar.gz
 
 RUN jupyter lab workspace import ${HOME}/work/binder/jupyterlab.workspace
