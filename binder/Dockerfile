@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:aa14e4498c6b
+FROM jupyter/base-notebook:aa14e4498c6b
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}/work
@@ -6,7 +6,8 @@ USER root
 RUN chown -R ${NB_UID} ${HOME}/work
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl gnupg && \
+    apt-get install -y --no-install-recommends \
+        curl gnupg && \
     \
     # add github cli repository
     curl https://cli.github.com/packages/githubcli-archive-keyring.gpg | apt-key add - && \
@@ -25,7 +26,8 @@ RUN apt-get update && \
     \
     # install gh, gcloud, and terraform
     apt-get update && \
-    apt-get install gh google-cloud-cli terraform
+    apt-get install -y --no-install-recommends \
+        gh google-cloud-cli terraform
 
 RUN \
     # install kubectl
