@@ -1,0 +1,580 @@
+#!/opt/conda/bin/python
+
+import click
+import subprocess
+from pathlib import Path
+import json
+
+# # PROJ_NAME = "{{ cookiecutter.github_reponame }}"
+# # DIY_PROJ_NAME = "{{ cookiecutter.__diy_project_name }}"
+# # DIY_CONFIG_DIR = Path.home() / ".config" / DIY_PROJ_NAME
+# # DIY_CONFIG_FILE = DIY_CONFIG_DIR / "config.json"
+
+PROJ_NAME = "{{ cookiecutter.github_reponame }}"
+DIY_PROJ_NAME = "{{ cookiecutter.__diy_project_name }}"
+# PROJ_NAME = "zxcv"
+# DIY_PROJ_NAME = "diy-zxcv"
+DIY_CONFIG_DIR = Path.home() / ".config" / DIY_PROJ_NAME
+DIY_CONFIG_FILE = DIY_CONFIG_DIR / "config.json"
+
+# DIY_CHART_NAME = "{{ cookiecutter.__diy_project_name }}"
+DIY_CHART_URL = "https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}/"
+# DIY_CHART_URL = "https://diy-ds-cloud.github.io/zxcv/"
+DIY_CHART_INDEX = DIY_CHART_URL + "index.yaml"
+DIY_CHART_NAME = DIY_PROJ_NAME
+DIY_CHART_VERSION = None
+
+class Menu:
+
+    def __init__(self, options, pre="", post=""):
+
+        assert type(options) is list
+        assert type(pre) is str
+        assert type(post) is str
+
+        self.options = dict([(i, v) for i, v in enumerate(options, start=1)])
+        self.option_message = [ "%d) %s" % (k, self.options[k]) for k in self.options.keys() ]
+        self.menu_message = "\n".join([pre] + self.option_message + [post])
+        self.len = len(self.options)
+
+def run_gcp_cmd(command, return_type="list", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10):
+
+    output = subprocess.run(command.split(" "), stdout=stdout, stderr=stderr, check=True, timeout=timeout)
+
+    if return_type == "list":
+
+        retval = output.stdout.decode().splitlines()
+
+    elif return_type == "raw":
+
+        retval = output
+
+    elif return_type == "none":
+
+        retval = None
+
+    else:
+
+        raise NotImplementedError('gcloud return type must be "raw", "list" or "none"')
+
+    # print("## for debugging", retval)
+    return(retval)
+
+def set_project(project_id=None):
+
+    all_projects = run_gcp_cmd("gcloud projects list --format value(project_id)")
+    active_project = run_gcp_cmd("gcloud config get core/project")
+
+    if active_project and active_project[0] == project_id:
+
+        return(active_project[0])
+
+    elif active_project and project_id is None:
+
+        # confirm project value 
+
+        assert len(active_project)==1, f"{active_project} should contain only one element"
+        assert active_project[0] in all_projects, f"{active_project[0]} is not a valid project id for this account"
+        
+        if click.confirm("Create infrastructure under project, %s?" % (active_project[0])):
+
+            return(active_project[0])
+
+    # switch projects
+    other_projects = list(set(all_projects) - set(active_project))
+
+    if project_id or project_id == "":
+        
+        assert project_id in other_projects, "Project '" + project_id + "' is not accesible by " + run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")[0]
+
+        new_project = project_id
+
+    else:
+
+        project_choices = Menu(
+            options=other_projects,
+            pre="Switch to project..." + 
+                "(For creating a project, visit https://console.cloud.google.com)",
+            post="Please choose an option from above")
+
+        project_selection = click.prompt(
+            project_choices.menu_message,
+            type=click.IntRange(1, project_choices.len))
+
+        new_project = project_choices.options[project_selection]
+
+    run_gcp_cmd(
+        "gcloud config set core/project %s" % (new_project),
+        return_type="none")
+
+    active_project = run_gcp_cmd("gcloud config get core/project")
+
+    return(active_project[0])
+
+def set_zone(zone_code=None):
+
+    all_zones = run_gcp_cmd("gcloud compute zones list --format value(name)")
+    active_zone = run_gcp_cmd("gcloud config get compute/zone")
+
+    if active_zone and active_zone[0] == zone_code:
+
+        return(active_zone[0])
+
+    elif active_zone and zone_code is None:
+
+        # zone is already set
+
+        assert len(active_zone)==1, f"{active_zone} should contain only one element"
+        assert active_zone[0] in all_zones, f"{active_zone[0]} is not a valid zone for this project"
+        
+        if click.confirm("Create infrastructure in %s zone?" % (active_zone[0])):
+
+            return(active_zone[0])
+
+    # switch zones
+    other_zones = list(set(all_zones) - set(active_zone))
+
+    if zone_code or zone_code == "":
+        
+        assert zone_code in other_zones, "Zone '" + zone_code + "' is an invalid zone for project " + run_gcp_cmd("gcloud config get core/project")[0]
+
+        new_zone = zone_code
+
+    else:
+
+        zone_choices = Menu(
+            options=other_zones,
+            pre="Switch to zone...",
+            post="Please choose a zone from above")
+
+        zone_selection = click.prompt(
+            zone_choices.menu_message,
+            type=click.IntRange(1, zone_choices.len))
+
+        new_zone = zone_choices.options[zone_selection]
+
+    run_gcp_cmd(
+        "gcloud config set compute/zone %s" % (new_zone),
+        return_type="none")
+
+    active_zone = run_gcp_cmd("gcloud config get compute/zone")
+
+    return(active_zone[0])
+
+def set_user(username=None):
+
+    all_users = run_gcp_cmd("gcloud auth list --format value(account)")
+    active_user = run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")
+
+    if active_user and active_user[0] == username:
+
+        return(active_user[0])
+
+    elif username and username in all_users:
+
+        run_gcp_cmd(
+            "gcloud config set account %s" % (username), 
+            return_type="none")
+
+        active_user = run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")
+        return(active_user[0])
+
+    elif username and username not in all_users:
+
+        run_gcp_cmd("gcloud auth login --no-browser --update-adc", stdout=None, stderr=None, timeout=None, return_type="none")
+
+        active_user = run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")
+        return(active_user[0])
+
+    elif active_user and username is None:
+
+        # user is already set
+
+        assert len(active_user)==1, f"{active_user} should contain only one element"
+        
+        if click.confirm("Create infrastructure as %s user?" % (active_user[0])):
+
+            return(active_user[0])
+
+    # switch users
+    other_users = list(set(all_users) - set(active_user))
+
+    user_choices = Menu(
+        options=other_users + ['login as another user'],
+        pre="Switch to user...",
+        post="Please choose an option from above")
+
+    user_selection = click.prompt(
+        user_choices.menu_message,
+        type=click.IntRange(1, user_choices.len))
+
+    if user_selection == user_choices.len:
+
+        run_gcp_cmd("gcloud auth login --no-browser --update-adc", stdout=None, stderr=None, timeout=None, return_type="none")
+
+    else:
+
+        run_gcp_cmd(
+            "gcloud config set account %s" % (user_choices.options[user_selection]), 
+            return_type="none")
+
+    active_user = run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")
+
+    return(active_user[0])
+
+def get_charts():
+
+    import yaml
+    from urllib.request import urlopen
+
+    data = urlopen(DIY_CHART_INDEX).read().decode()
+    charts = yaml.safe_load(data)["entries"][DIY_CHART_NAME]
+
+    return(charts)
+
+def set_chart_version(version=None):
+
+    # import pandas as pd
+
+    # charts = pd.DataFrame.from_dict(get_charts())
+    # charts['create'] = pd.to_datetime(charts['created'])
+
+    global DIY_CHART_VERSION
+
+    charts = get_charts()
+    all_versions = [ c['version'] for c in charts ]
+    active_version = [DIY_CHART_VERSION]
+
+    if version and version in all_versions:
+
+        active_version = version
+        return(version)
+
+    elif active_version is not None:
+        
+        if active_version in all_versions:
+
+            if click.confirm("The chart version is set to %s. Continue?" % (active_version)):
+
+                return(active_version)
+
+        else:
+
+            click.echo("Currently set version %s is not found at %s" % (active_version, DIY_CHART_INDEX))
+
+    assert all_versions, "%s should have at least one valid version" % (DIY_CHART_INDEX) 
+    other_versions = list(set(all_versions) - set(active_version))
+
+    # version_list_short = [ "%s" % (c['version']) for c in charts ]
+    # version_list = [ "%s (created on %s)" % (c['version'], c['created']) for c in charts ]
+
+    version_choices = Menu(
+        options=other_versions,
+        pre="Choose a version...",
+        post="Please choose a version from above")
+
+    version_selection = click.prompt(
+        version_choices.menu_message,
+        type=click.IntRange(1, version_choices.len))
+
+    active_version = version_choices.options[version_selection] 
+
+        # if click.confirm("The latest version of chart is %s. Set to the latest version?" % (charts[0]['version'])):
+
+    return(active_version)
+    
+
+class Config:
+
+    def __init__(self):
+        
+        self.username = None
+        self.project_id = None
+        self.compute_zone = None
+        self.chart_version = None
+        self.applied = False
+
+    def __repr__(self):
+        
+        data = []
+        data += ["username: %s" % (self.username)]
+        data += ["project_id: %s" % (self.project_id)]
+        data += ["compute_zone: %s" % (self.compute_zone)]
+        data += ["chart_version: %s" % (self.chart_version)]
+        data += ["applied: %s" % (self.applied)]
+
+        return('%s' % ("\n".join(data)))
+
+    def get_status(self):
+
+        try:
+            self.username = run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")[0]
+        except:
+            self.username = None
+        try:
+            self.project_id = run_gcp_cmd("gcloud config get core/project")[0]
+        except:
+            self.project_id = None
+
+        try:
+            self.compute_zone = run_gcp_cmd("gcloud config get compute/zone")[0]
+        except:
+            self.compute_zone = None
+
+        self.chart_version = DIY_CHART_VERSION
+        self.applied = True 
+
+    def load(self, username, project_id, compute_zone, chart_version):
+
+        global DIY_CHART_VERSION
+
+        self.username = username
+        self.project_id = project_id
+        self.compute_zone = compute_zone
+        self.chart_version = chart_version
+        DIY_CHART_VERSION = chart_version
+        self.applied = False
+
+    def apply(self):
+
+        self.username = set_user(self.username if self.username else None)
+        self.project_id = set_project(self.project_id if self.project_id else None)
+        self.compute_zone = set_zone(self.compute_zone if self.compute_zone else None)
+        self.chart_version = set_chart_version(self.chart_version if self.chart_version else None)
+
+        if self.validate():
+
+            self.applied = True
+
+        else:
+
+            raise
+
+    def validate(self):
+
+        click.echo("validating..." + str(self))
+        asdf = (all([
+            self.username != None,
+            self.project_id != None,
+            self.compute_zone != None,
+            self.chart_version != None
+        ]))
+        click.echo("valid" if asdf else "invalid")
+        return(asdf)
+
+    def write(self, filename=None):
+
+        cfg = {
+            "username": self.username,
+            "project_id": self.project_id,
+            "compute_zone": self.compute_zone,
+            "chart_version": self.chart_version
+        }
+
+        if not Path(filename).parents[0].exists():
+            Path(filename).parents[0].mkdir(parents=True)
+
+        with Path(filename).open(mode='w') as fp:
+            json.dump(cfg, fp)
+
+    @classmethod
+    def fromFile(cls, file):
+
+        import json
+
+        if file.is_file():
+
+            try:
+
+                with file.open(encoding="UTF-8") as source:
+                    config = json.load(source)
+
+                asdf = cls()
+                asdf.load(*config.values())
+
+                return(asdf)
+
+            except ValueError as e:
+
+                return(cls())
+
+        else:
+            return(cls())
+
+@click.group()
+def cli():
+  pass
+
+@cli.command(name='config')
+@click.option(
+    '--config-file', 
+    default=DIY_CONFIG_FILE,
+    help="Read and apply configuration from file. The default is to load ~/.config/{{ cookiecutter.github_reponame }}/config.json")
+@click.option(
+    '--from-file/--from-env', is_flag=True, 
+    default=True,
+    help="Load configuration settings from file or check current settings in effect.")
+@click.option(
+    '--force-init', is_flag=True, 
+    default=False,
+    help="Delete/ignore configuration file or any currently applied settings.")
+@click.option(
+    '--save-config/--dry-run', is_flag=True, 
+    default=True,
+    help="Save configuration settings to file")
+def config(from_file, config_file, save_config, force_init):
+
+    global DIY_CONFIG_FILE
+    DIY_CONFIG_FILE = Path(config_file)
+
+    if force_init:
+
+        run_gcp_cmd("gcloud config unset core/account")
+        run_gcp_cmd("gcloud config unset core/project")
+        run_gcp_cmd("gcloud config unset compute/zone")
+        DIY_CHART_VERSION = None
+
+        if DIY_CONFIG_FILE.is_file():
+            DIY_CONFIG_FILE.unlink()
+
+        cfg = Config()
+        cfg.apply()
+        if save_config:
+
+            assert cfg.validate(), "Config is not valid. Not saving"
+            cfg.write(DIY_CONFIG_FILE)
+        else:
+            click.echo(cfg)
+
+        return(cfg)
+
+    if from_file and DIY_CONFIG_FILE.is_file():
+        
+        cfg = Config.fromFile(DIY_CONFIG_FILE)
+
+        if not DIY_CONFIG_FILE.is_file() or not cfg.validate():
+
+            click.echo("%s is not found or is invalid.\n%s" % (DIY_CONFIG_FILE, cfg))
+
+            if click.confirm("Ignore %s and continue configuration?" % (DIY_CONFIG_FILE)):
+
+                cfg.apply()
+
+                if save_config:
+                    assert cfg.validate(), "Config is not valid. Not saving"
+                    cfg.write(DIY_CONFIG_FILE)
+                else:
+                    click.echo(cfg)
+
+            return(cfg)
+
+        message =  ["Configuration read from %s" % (DIY_CONFIG_FILE)]
+        message += ["%s" % (cfg)]
+        message += ["Do you want to apply these settings?"]
+
+        if click.confirm("\n".join(message)):
+            cfg.apply()
+            if save_config:
+                assert cfg.validate(), "Config is not valid. Not saving"
+                cfg.write(DIY_CONFIG_FILE)
+
+            return(cfg)
+
+    else:
+
+        cfg = Config()
+        cfg.get_status()
+
+        if not cfg.validate():
+            click.echo("Cannot read from current status. Creating a new configuration")
+            cfg.apply()
+
+    if save_config:
+        assert cfg.validate(), "Config is not valid. Not saving"
+        cfg.write(DIY_CONFIG_FILE)
+    else:
+        click.echo(cfg)
+
+    return(cfg)
+
+def build_cmd(cmd, params=(), stdout=None, stderr=None):
+    full_cmd = (cmd % params)
+    click.echo("\n## Executing:\n%s" % (full_cmd))
+    return subprocess.run(full_cmd.split(" "), stdout=stdout, stderr=stderr)
+        
+@cli.command(name='deploy')
+def deploy():
+    click.echo(f'## deploy')
+
+    if DIY_CONFIG_FILE.is_file():
+        
+        cfg = Config.fromFile(DIY_CONFIG_FILE)
+
+        assert cfg.validate(), "Configuration file %s is invalid" % (DIY_CONFIG_FILE)
+
+        message  = ["Running deploy with following settings"]
+        message += [str(cfg)]
+        message += ["Continue with these settings?"]
+        
+        assert click.confirm("\n".join(message)), "No consent to deploy cloud infrastructre"
+
+        cfg.apply()
+
+        cmd = "terraform -chdir=cluster init"
+        build_cmd(cmd)
+        
+        cmd = 'terraform -chdir=cluster apply -var=project_id=%s -var=region=%s -var=diy_project_name=%s -auto-approve'
+        build_cmd(cmd, (cfg.project_id, cfg.compute_zone, DIY_PROJ_NAME))
+
+        cmd = "terraform -chdir=cluster output -raw kubernetes_cluster_name"
+        CLUSTER_NAME = build_cmd(cmd, stdout=subprocess.PIPE).stdout.decode()
+
+        cmd = "gcloud container clusters get-credentials %s --zone=%s --project=%s"
+        build_cmd(cmd, (CLUSTER_NAME, cfg.compute_zone, cfg.project_id))
+
+# echo -e "\n\n## Deploying Rstudio application with Helm chart version, ${HELM_CHART_VERSION}"'
+        cmd = "helm repo add %s %s"
+        build_cmd(cmd, (PROJ_NAME, DIY_CHART_URL))
+
+        cmd = "helm repo update"
+        build_cmd(cmd)
+
+        cmd = "helm install myrelease %s/%s --version %s --wait"
+        build_cmd(cmd, (PROJ_NAME, DIY_PROJ_NAME, DIY_CHART_VERSION))
+
+        cmd = "kubectl get svc myrelease-%s-notebook --namespace default -o json"
+        SERVICE_OUTPUT = build_cmd(cmd, (DIY_PROJ_NAME), stdout=subprocess.PIPE).stdout.decode()
+        SERVICE_OUTPUT = json.loads(SERVICE_OUTPUT)
+        SERVICE_IP = SERVICE_OUTPUT['status']['loadBalancer']['ingress'][0]['ip']
+
+        click.echo("Rstudio is available at URL: http://%s:80" % (SERVICE_IP))
+
+if __name__ == '__main__':
+
+    cli()
+    # pass
+# 
+#     print(DIY_PROJ_NAME)
+#     print(DIY_CONFIG_DIR)
+#     print(DIY_CONFIG_FILE)
+#     print(DIY_CHART_URL)
+#     print(DIY_CHART_NAME)
+#     print(DIY_CHART_VERSION)
+# 
+#     asdf = Config()
+#     asdf.apply()
+    
+    # run_gcp_cmd("gcloud auth list --format value(account)")
+    # run_gcp_cmd("gcloud auth list --format value(account) --filter status:ACTIVE")
+
+    # run_gcp_cmd("gcloud projects list --format value(project_id)")
+    # run_gcp_cmd("gcloud config get core/project")
+
+    # run_gcp_cmd("gcloud compute zones list --format value(name)")
+    # run_gcp_cmd("gcloud config get compute/zone")
+
+    # print(set_user("syoh@ucsb.edu"))
+    # print(set_project("testing-sandbox-324502"))
+    # print(set_project("a"))
+    # print(set_zone("australia-southeast1-b"))
+    # print(set_chart_version())

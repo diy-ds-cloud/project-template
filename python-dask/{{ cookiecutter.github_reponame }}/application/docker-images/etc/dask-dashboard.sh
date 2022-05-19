@@ -12,6 +12,6 @@ echo "################### $DASK_DASHBOARD_HOST"
 echo "c.ServerProxy.host_allowlist = ['localhost', '127.0.0.1', '${DASK_DASHBOARD_HOST}']" >> /home/jovyan/.jupyter/jupyter_notebook_config.py
 
 # setup workspace address
-sed -i -e "s|DASK_DASHBOARD_URL|http://127.0.0.1:8888/proxy/${DASK_DASHBOARD_ADDRESS}|g" /home/jovyan/jupyterlab-workspace.json
+sed -i -e "s|DASK_DASHBOARD_URL|/proxy/${DASK_DASHBOARD_ADDRESS}|g" /home/jovyan/jupyterlab-workspace.json
 # sed -i -e "s|DASK_DASHBOARD_URL|/proxy/${DASK_DASHBOARD_ADDRESS}/status|g" /home/jovyan/jupyterlab-workspace.json
 jupyter lab workspaces import /home/jovyan/jupyterlab-workspace.json
