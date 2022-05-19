@@ -25,7 +25,6 @@ notebook:
     repository: "{{ cookiecutter.docker_orgname }}/python-dask-notebook:set-by-chartpress"
     # repository: syoh/dask-notebook
     # repository: syoh/r-notebook
-    tag: b6fdd5dae6cb
     # pullPolicy: IfNotPresent
     pullPolicy: Always
   resources: {}

@@ -9,18 +9,18 @@ charts:
       published: https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }}
     images:
       worker:
-        contextPath: .
+        contextPath: ..
         dockerfilePath: docker-images/Dockerfile
         buildArgs:
           BUILD_STAGE: "worker"
-          DIR_PREFIX: "docker-images"
+          DIR_PREFIX: "application/docker-images"
         valuesPath:
           - worker.image.repository
       rstudio:
-        contextPath: .
+        contextPath: ..
         dockerfilePath: docker-images/Dockerfile
         buildArgs:
           BUILD_STAGE: "rstudio"
-          DIR_PREFIX: "docker-images"
+          DIR_PREFIX: "application/docker-images"
         valuesPath:
           - notebook.image.repository
