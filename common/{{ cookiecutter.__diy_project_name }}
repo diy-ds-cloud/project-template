@@ -37,7 +37,7 @@ class Menu:
         self.menu_message = "\n".join([pre] + self.option_message + [post])
         self.len = len(self.options)
 
-def run_gcp_cmd(command, return_type="list", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10):
+def run_gcp_cmd(command, return_type="list", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30):
 
     output = subprocess.run(command.split(" "), stdout=stdout, stderr=stderr, check=True, timeout=timeout)
 
