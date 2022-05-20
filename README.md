@@ -33,7 +33,7 @@ This repository contains templates for creating projects in Python or R. Distrib
 
 ### Step 3.1: Binder session
 
-Start a Binder session by clicking on the badge above. Then, execute the following command in the Jupyter Lab terminal and follow the prompt.
+Start a Binder session by clicking on the badge above
 
 ### Step 3.2: `docker` and `docker-compose` (advanced)
 If you have docker and docker-compose that can run Ubuntu container images, starting your own Jupyter lab session is another possibility.
@@ -47,6 +47,8 @@ If you have docker and docker-compose that can run Ubuntu container images, star
 ```
 
 ### Step 3: Generate files for your project
+
+Then, execute the following command in the Jupyter Lab terminal and follow the prompt.
 
 |                  | Python                     | R                       |
 |------------------|----------------------------|-------------------------|
