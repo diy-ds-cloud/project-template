@@ -3,17 +3,15 @@
 set -e
 
 echo "--------------------------------------------"
-echo "DIY Cloud Computing for Data Science using R"
+echo "DIY Cloud Computing for Data Science"
 echo "--------------------------------------------"
 
 echo -e "\n\n## Step 1: login to GitHub"
 gh auth login --git-protocol ssh --scopes workflow,delete_repo --hostname github.com
 gh auth setup-git
 
-# git config --global --replace-all 'credential.https://github.com.helper' ''
-# git config --global --replace-all 'credential.https://github.com.helper' '!gh auth git-credential'
-# git config --global user.email "you@example.com"
-# git config --global user.name "DIY Data Science Cloud Computing"
+git config --global user.name "{{ cookiecutter.git_user_name }}"
+git config --global user.email "{{ cookiecutter.git_user_email }}"
 
 echo -e "\n\n## Step 2: create project repository: {{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}"
 # create/push empty repository before setting gh actions credentials

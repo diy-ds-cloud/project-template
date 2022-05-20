@@ -1,2 +1,5 @@
-jupyter lab workspace import ${HOME}/work/binder/jupyterlab.workspace
-ln -s /home/jovyan/work /home/jovyan/project-template
+REPO="project-template"
+REPO_DIR_PATH=${HOME}/${REPO}
+
+ln -s ${HOME}/work ${REPO_DIR_PATH}
+jupyter lab workspace import ${REPO_DIR_PATH}/binder/jupyterlab.workspace
