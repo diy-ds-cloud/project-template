@@ -35,7 +35,7 @@ If you haven't already, start a Binder session by clicking on the badge above. T
 
 |                  | Python                     | R                       |
 |------------------|----------------------------|-------------------------|
-| Command          | `cookiecutter python-dask` | `cookiecutter r-future` |
+| Command          | `cookiecutter project-template --directory=python-dask` | `cookiecutter project-template --directory=r-future` |
 
 When the process completes, all generated files have been uploaded to the newly created GitHub repository. At the end of generation, you should get a message similar to the following:
 

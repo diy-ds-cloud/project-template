@@ -21,12 +21,12 @@
                             "type": "tab-area",
                             "currentIndex": 0,
                             "widgets": [
-                                "markdownviewer-widget:work/README.md"
+                                "markdownviewer-widget:project-template/README.md"
                             ]
                         }
                     ]
                 },
-                "current": "markdownviewer-widget:work/README.md"
+                "current": "markdownviewer-widget:project-template/README.md"
             },
             "down": {
                 "size": 0,
@@ -61,11 +61,11 @@
             }
         },
         "file-browser-filebrowser:cwd": {
-            "path": "work"
+            "path": "project-template"
         },
-        "markdownviewer-widget:work/README.md": {
+        "markdownviewer-widget:project-template/README.md": {
             "data": {
-                "path": "work/README.md",
+                "path": "project-template/README.md",
                 "factory": "Markdown Preview"
             }
         }
