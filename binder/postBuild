@@ -1,0 +1,2 @@
+jupyter lab workspace import ${HOME}/work/binder/jupyterlab.workspace
+ln -s /home/jovyan/work /home/jovyan/project-template

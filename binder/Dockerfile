@@ -45,6 +45,4 @@ COPY --chown=${NB_UID}:${NB_GID} . ${HOME}/work
 
 USER ${NB_USER}
 
-RUN jupyter lab workspace import ${HOME}/work/binder/jupyterlab.workspace
-
-RUN ln -s /home/jovyan/work /home/jovyan/project-template
+RUN source work/binder/postBuild
