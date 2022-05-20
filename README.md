@@ -2,7 +2,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/diy-ds-cloud/project-template/HEAD)
 
-**Important**: This repository contains [cookicutter templates](https://github.com/cookiecutter/cookiecutter#readme) that require [other software](https://github.com/diy-ds-cloud/project-template#software-prerequisites) to generate properly.
+**Important**: This repository contains [cookicutter templates](https://github.com/cookiecutter/cookiecutter#readme) that require [other software](https://github.com/diy-ds-cloud/project-template#software-prerequisites) to generate.
 
 To start, click on the badge above and follow rest of the steps in the Binder session.
 
@@ -29,9 +29,24 @@ This repository contains templates for creating projects in Python or R. Distrib
 | User interface   | [Jupyter Lab](https://jupyter.org)              | [RStudio](https://www.rstudio.com)      |
 | Deployed pods    | 1 x Jupyter Lab<br>1 x scheduler<br>2 x workers | 1 x RStudio<br>2 x workers 	           |
 
-### Step 3: Generate files for your project
+### Step 3: Choose user interface
 
-If you haven't already, start a Binder session by clicking on the badge above. Then, execute the following command in the Jupyter Lab terminal and follow the prompt.
+### Step 3.1: Binder session
+
+Start a Binder session by clicking on the badge above. Then, execute the following command in the Jupyter Lab terminal and follow the prompt.
+
+### Step 3.2: `docker` and `docker-compose` (advanced)
+If you have docker and docker-compose that can run Ubuntu container images, starting your own Jupyter lab session is another possibility.
+
+```bash
+(
+    cd project-template
+    docker-compose build jupyterlab
+    docker-compose up
+)
+```
+
+### Step 3: Generate files for your project
 
 |                  | Python                     | R                       |
 |------------------|----------------------------|-------------------------|
