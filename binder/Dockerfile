@@ -10,7 +10,7 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        curl gnupg && \
+        openssh-client curl gnupg && \
     \
     # add github cli repository
     curl https://cli.github.com/packages/githubcli-archive-keyring.gpg | apt-key add - && \
