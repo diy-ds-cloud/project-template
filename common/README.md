@@ -26,15 +26,18 @@ This project will help you create a [Kubernetes cluster](https://kubernetes.io/d
     docker-compose build jupyterlab
     docker-compose up
     ```
-1. Start a [terminal session in Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/user/terminal.html)
-1. In a terminal prompt, execute  
+1. Start a [terminal session in Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/user/terminal.html) and `cd` into directory `work`
     ```bash
-    {{ cookiecutter.__diy_project_name}} config
+    cd ~/work
+    ```
+3. In a terminal prompt, execute  
+    ```bash
+    ./{{ cookiecutter.__diy_project_name}} config
     ```
     This command logs you into your Google Cloud account, sets project id, compute zone, and Helm chart version choices for running the analysis application in this repository.
 1. Subsequently, execute 
     ```bash
-    {{ cookiecutter.__diy_project_name}} deploy
+    ./{{ cookiecutter.__diy_project_name}} deploy
     ```
 
 ### Step 3: Open and start RStudio session
