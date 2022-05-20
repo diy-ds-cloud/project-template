@@ -26,9 +26,9 @@ This project will help you create a [Kubernetes cluster](https://kubernetes.io/d
     docker-compose build jupyterlab
     docker-compose up
     ```
-1. Start a [terminal session in Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/user/terminal.html) and `cd` into directory `work`
+1. Start a [terminal session in Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/user/terminal.html) and `cd` into directory `{{ cookiecutter.github_reponame }}`
     ```bash
-    cd ~/work
+    cd ~/{{ cookiecutter.github_reponame }}
     ```
 3. In a terminal prompt, execute  
     ```bash
