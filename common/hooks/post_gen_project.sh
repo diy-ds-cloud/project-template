@@ -21,6 +21,7 @@ git init
 git commit --allow-empty -m "empty commit"
 git branch -M main
 git remote add origin https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}.git
+sleep 3
 git push -u origin main
 
 echo -e "\n\n## Step 3: set repository secrets"
