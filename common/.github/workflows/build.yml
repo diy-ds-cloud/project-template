@@ -3,6 +3,7 @@ name: Publish helm chart and docker images
 # from https://github.com/jupyterhub/binderhub/blob/3ccb21af73b8a42ea44226b6e5cd5c8b94bf2fdc/.github/workflows/publish.yml
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
 
