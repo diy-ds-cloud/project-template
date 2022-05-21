@@ -547,7 +547,7 @@ def deploy():
         SERVICE_OUTPUT = json.loads(SERVICE_OUTPUT)
         SERVICE_IP = SERVICE_OUTPUT['status']['loadBalancer']['ingress'][0]['ip']
 
-        click.echo("Rstudio is available at URL: http://%s:80" % (SERVICE_IP))
+        click.echo("User interface URL: http://%s:80" % (SERVICE_IP))
 
 if __name__ == '__main__':
 
