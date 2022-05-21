@@ -7,7 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: worker
-    image: r-future:worker-latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-worker:latest
+    # image: r-future:worker-latest
     command: >
       bash -c "
       /opt/conda/bin/future-vars.sh
@@ -23,7 +24,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: rstudio
-    image: r-future:rstudio-latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-rstudio:latest
+    # image: r-future:rstudio-latest
     hostname: rstudio
     ports:
       - "8888:8888"
