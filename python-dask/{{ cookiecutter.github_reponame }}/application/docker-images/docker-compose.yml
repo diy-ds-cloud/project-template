@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: worker
-    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-worker:latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-worker:${TAG:?err}
     # image: python-dask:worker-latest
     hostname: dask-scheduler
     ports:
@@ -20,7 +20,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: worker
-    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-worker:latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-worker:${TAG:?err}
     # image: python-dask:worker-latest
     command: ["dask-worker", "tcp://dask-scheduler:8786"]
     deploy:
@@ -31,7 +31,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: notebook
-    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-notebook:latest
+    image: {{ cookiecutter.docker_orgname }}/{{ cookiecutter.__diy_project_name }}-notebook:${TAG:?err}
     # image: python-dask:notebook-latest
     hostname: dask-notebook
     ports:
