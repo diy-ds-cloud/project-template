@@ -40,10 +40,10 @@ This project will help you create a [Kubernetes cluster](https://kubernetes.io/d
     ./{{ cookiecutter.__diy_project_name}} deploy
     ```
 
-### Step 3: Open and start RStudio session
+### Step 3: Open and start interface session (Jupyter notebook or RStudio)
 1. Find and open a URL on the last line of `{{ cookiecutter.__diy_project_name}} deploy` command. Something like,
     ```bash
-    Rstudio is available at URL: http://[some-ip-address]:80
+    Interface is available at URL: http://[some-ip-address]:80
     ```
 1. Login using default password: `diy-cloud`
 
@@ -91,7 +91,7 @@ This project will help you create a [Kubernetes cluster](https://kubernetes.io/d
 `application` directory contains the necessary information to build and deploy the _application_ (RStudio and [future](https://future.futureverse.org) installation image and configuration) for running the analysis code.
 
 1. `{{ cookiecutter.__diy_project_name }}` directory defines a [Helm chart](https://helm.sh) for this project. `Chart.yaml` defines the chart, and `templates` directory defines various computational components (RStudio controller node vs. R worker node) for the cluster. `templates` directory also specifies how the components are connected as controller and worker nodes. Think of machines and how they are interconnected to carry out distributed computation.
-1. `docker-images` directory contains [docker images](https://docs.docker.com/get-started/overview/#images) of RStudio node and R worker nodes. `future-vars.sh` is a script that defines controller and worker settings.
+1. `docker-images` directory contains [docker images](https://docs.docker.com/get-started/overview/#images) of RStudio node and R worker nodes. `future-vars.sh` is a script that defines controller and worker settings. `Dockerfiles` can be modified to add custom packages or libraries
 1. `chartpress.yaml` file and `scripts` directory contain information needed for [`chartpress`](https://github.com/jupyterhub/chartpress). Chartpress does the following:  
     a. Compile a Helm chart and Docker images with [Github actions](https://github.com/{{ cookiecutter.github_orgname }}/{{ cookiecutter.github_reponame }}/actions)  
     b. Update the [project repository page](https://{{ cookiecutter.github_orgname }}.github.io/{{ cookiecutter.github_reponame }})  
