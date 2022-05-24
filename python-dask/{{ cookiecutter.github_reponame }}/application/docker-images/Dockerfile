@@ -6,6 +6,10 @@ ARG DIR_PREFIX=.
 
 COPY --chown=${NB_UID}:${NB_GID} . ${HOME}/work/
 
+### start: packages for both workers and notebook 
+RUN pip install dask-ml
+### end: packages for both workers and notebook 
+
 FROM worker AS notebook
 
 ARG DIR_PREFIX=.
@@ -24,6 +28,10 @@ COPY --chown=${NB_UID}:${NB_GID} ${DIR_PREFIX}/scripts/array.ipynb work/array.ip
 # RUN jupyter lab workspaces import jupyterlab-workspace.json
 
 # RUN echo 'c.ServerProxy.host_allowlist = ["localhost", "127.0.0.1", "dask-scheduler"]' >> /home/jovyan/.jupyter/jupyter_notebook_config.py
+
+### start: packages for just notebook 
+# RUN pip install dask-ml
+### end: packages for just notebook 
 
 FROM ${BUILD_STAGE} AS final
 
