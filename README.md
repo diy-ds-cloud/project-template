@@ -94,6 +94,16 @@ In order to perform the steps above, following software are required:
 
 These are installed in the [Dockerfile](binder/Dockerfile)
 
+## References
+
+* [Using Kubernetes and the Future Package to Easily Parallelize R in the Cloud](https://www.jottr.org/2021/04/08/future-and-kubernetes/), Chris Paciorek, Department of Statistics, University of California at Berkeley
+* [Dask Helm Charts](https://github.com/dask/helm-chart)
+* [`jupyterhub/chartpress`](https://github.com/jupyterhub/chartpress#readme)
+* [How to create a Helm chart repository with Chartpress, Travis CI, GitHub Pages, and Jekyll](https://jacobtomlinson.dev/posts/2019/how-to-create-a-helm-chart-repository-with-chartpress-travis-ci-github-pages-and-jekyll/)
+* [Manage Kubernetes Resources via Terraform](https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider)
+
+
+
 ## License
 
 This work is licensed under a
