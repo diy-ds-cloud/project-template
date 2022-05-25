@@ -1,6 +1,6 @@
 # Do-it-yourself Cloud Computing for Data Science Project Templates
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/diy-ds-cloud/project-template/HEAD)
+[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa] [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/diy-ds-cloud/project-template/HEAD)
 
 **Important**: This repository contains [cookicutter templates](https://github.com/cookiecutter/cookiecutter#readme) that require [other software](https://github.com/diy-ds-cloud/project-template#software-prerequisites) to generate.
 
@@ -94,7 +94,7 @@ In order to perform the steps above, following software are required:
 
 These are installed in the [Dockerfile](binder/Dockerfile)
 
-Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+## License
 
 This work is licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
