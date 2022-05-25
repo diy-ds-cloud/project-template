@@ -4,11 +4,13 @@
     "github_username": "syoh",
     "github_orgname": "diy-ds-cloud",
     "github_reponame": "zxcv",
-    "__diy_project_name": "diy-{{ cookiecutter.github_reponame }}",
+    "git_user_name": "{{ cookiecutter.github_username }}",
+    "git_user_email": "{{ cookiecutter.github_username }}@users.noreply.github.com",
     "docker_username": "syoh",
     "docker_orgname": "dddlab",
     "_copy_without_render": [
         "application/{{ cookiecutter.__diy_project_name }}/templates/*",
         ".github/workflows/build.yml"
-    ]
+    ],
+    "__diy_project_name": "diy-{{ cookiecutter.github_reponame }}"
 }
