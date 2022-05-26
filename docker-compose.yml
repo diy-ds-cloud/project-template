@@ -9,18 +9,14 @@ services:
     build:
       context: ./
       dockerfile: binder/Dockerfile
+      args:
+        - ARG NB_USER=jovyan
+        - ARG NB_UID=1000
 
     ports:
       - 8888:8888
 
-    user: root
-
     environment:
-      - RESTARTABLE=yes
-      - GEN_CERT=yes
-      - GRANT_SUDO=yes
       - JUPYTER_TOKEN=asdf
-      - DOCKER_STACKS_JUPYTER_CMD=lab
 
-    volumes:
-      - ${PWD}:/home/jovyan/work
+    command: ["jupyter", "lab", "--NotebookApp.default_url=/lab/", "--ip=0.0.0.0", "--port=8888"]

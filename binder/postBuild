@@ -1,3 +1,5 @@
+#!/binb/bash
+
 REPO="project-template"
 REPO_DIR_PATH=${HOME}/${REPO}
 

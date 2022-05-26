@@ -1,12 +1,12 @@
-FROM jupyter/base-notebook:aa14e4498c6b
-
-RUN pip install --no-cache-dir \
-    nbgitpuller \
-    click \
-    pyyaml \
-    https://github.com/cookiecutter/cookiecutter/archive/refs/tags/2.0.2.tar.gz
-
-USER root
+FROM python:3.9-slim
+# install the notebook package
+RUN pip install --no-cache --upgrade pip && \
+    pip install --no-cache notebook jupyterlab && \
+    pip install --no-cache \
+        nbgitpuller \
+        click \
+        pyyaml \
+        https://github.com/cookiecutter/cookiecutter/archive/refs/tags/2.0.2.tar.gz
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -41,8 +41,20 @@ RUN \
     # install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+# create user with a home directory
+ARG NB_USER=jovyan
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+WORKDIR ${HOME}
+
 COPY --chown=${NB_UID}:${NB_GID} . ${HOME}/work
 
 USER ${NB_USER}
-
-RUN source work/binder/postBuild
+ENV SHELL /bin/bash
+RUN . ./work/binder/postBuild
