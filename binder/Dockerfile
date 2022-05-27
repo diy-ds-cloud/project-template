@@ -30,7 +30,9 @@ RUN apt-get update && \
     # install gh, gcloud, and terraform
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        gh google-cloud-cli terraform
+        gh google-cloud-cli terraform && \
+    \
+    rm -rf /var/lib/apt/lists/*
 
 RUN \
     # install kubectl
